@@ -1,12 +1,8 @@
 import streamlit as st
 import pandas as pd
-import sklearn as sk
 import warnings
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.linear_model import LinearRegression
-
-# Use the SECRET_KEY, PORT, DEBUG, and MAX_CONTENT_LENGTH settings in your app code
-
 
 @st.cache
 def load_data():
@@ -15,26 +11,7 @@ def load_data():
     df = df.drop(columns=["Initial release", "Game"])
     return df
 
-def main():
-    st.markdown(
-        """
-        <style>
-            h1 {
-                color: blue;
-                text-align: center;
-            }
-            p {
-                font-size: 20px;
-                font-weight: bold;
-            }
-        </style>
-        <h1>Video Game Revenue Calculator</h1>
-        <p>Enter the publisher and genre of the video game to predict its revenue:</p>
-        """
-    , unsafe_allow_html=True)
-
-    df = load_data()
-
+def load_and_predict(df):
     # Split the data into training and testing sets
     X_train = df[["Publisher(s)", "Genre(s)"]]
     y_train = df["Revenue"]
@@ -65,7 +42,27 @@ def main():
     y_pred = model.predict(input_data_encoded)
 
     # Display the prediction to the user
+    st.markdown(
+        """
+        <style>
+            h1 {
+                color: blue;
+                text-align: center;
+            }
+            p {
+                font-size: 20px;
+                font-weight: bold;
+            }
+        </style>
+        <h1>Video Game Revenue Calculator</h1>
+        <p>Enter the publisher and genre of the video game to predict its revenue:</p>
+        """
+    , unsafe_allow_html=True)
     st.write("Predicted revenue (Millions of USD): ", y_pred[0])
+
+def main():
+    df = load_data()
+    load_and_predict(df)
 
 if __name__ == "__main__":
     main()
