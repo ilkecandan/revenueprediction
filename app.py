@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import sklearn
 import warnings
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.linear_model import LinearRegression
